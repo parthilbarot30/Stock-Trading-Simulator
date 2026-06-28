@@ -305,7 +305,6 @@ Only the backend needs a `.env` file:
 ## 📄 License
 
 This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
-
 ---
 
 ## 🙏 Acknowledgements
