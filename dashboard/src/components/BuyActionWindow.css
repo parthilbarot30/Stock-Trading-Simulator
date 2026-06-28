@@ -1,0 +1,409 @@
+/* ═══════════════════════════════════════════════════════════════
+   BuyActionWindow — Dark Financial Order Panel
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Backdrop overlay ──────────────────────────────────────────── */
+.baw-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+  z-index: 1400;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 0;
+}
+
+/* ── Panel shell ───────────────────────────────────────────────── */
+.baw-panel {
+  position: relative;
+  width: 480px;
+  max-width: 98vw;
+  background: #14171f;
+  border: 1px solid #252c3b;
+  border-bottom: none;
+  border-radius: 14px 14px 0 0;
+  box-shadow: 0 -8px 48px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255,255,255,0.04);
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  animation: baw-slide-up 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform;
+}
+
+@keyframes baw-slide-up {
+  from { transform: translateY(60px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* ── Colour accent on left edge by mode ───────────────────────── */
+.baw-panel::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--baw-accent);
+  border-radius: 0;
+}
+
+.baw-buy  { --baw-accent: #26a69a; --baw-accent-dim: rgba(38,166,154,0.12); --baw-accent-btn: #26a69a; --baw-accent-btn-h: #1d9088; }
+.baw-sell { --baw-accent: #ef5350; --baw-accent-dim: rgba(239,83,80,0.12);  --baw-accent-btn: #ef5350; --baw-accent-btn-h: #d63b38; }
+
+/* ── Header ────────────────────────────────────────────────────── */
+.baw-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px 13px;
+  border-bottom: 1px solid #1e2436;
+  cursor: grab;
+  user-select: none;
+}
+.baw-header:active { cursor: grabbing; }
+
+.baw-header-buy  { background: linear-gradient(90deg, rgba(38,166,154,0.08) 0%, #14171f 100%); }
+.baw-header-sell { background: linear-gradient(90deg, rgba(239,83,80,0.08) 0%, #14171f 100%); }
+
+.baw-header-left  { display: flex; align-items: center; gap: 10px; }
+.baw-header-right { display: flex; align-items: center; gap: 10px; }
+
+.baw-ticker {
+  font-size: 16px;
+  font-weight: 700;
+  color: #e8eaf0;
+  letter-spacing: 0.3px;
+}
+.baw-exchange {
+  font-size: 10px;
+  font-weight: 600;
+  color: #4f5968;
+  background: #1e2436;
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid #252c3b;
+}
+.baw-live-price {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e8eaf0;
+  transition: color 0.3s ease, background 0.3s ease;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+.baw-live-price.tick-up   { color: #26a69a; background: rgba(38,166,154,0.12); }
+.baw-live-price.tick-down { color: #ef5350; background: rgba(239,83,80,0.12); }
+
+.baw-mode-badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 5px;
+}
+.badge-buy  { background: rgba(38,166,154,0.15); color: #26a69a; }
+.badge-sell { background: rgba(239,83,80,0.15);  color: #ef5350; }
+
+.baw-close-btn {
+  background: none;
+  border: 1px solid #252c3b;
+  color: #4f5968;
+  width: 26px; height: 26px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.baw-close-btn:hover { background: #252c3b; color: #e8eaf0; border-color: #3a4155; }
+
+/* ── Order type tabs ───────────────────────────────────────────── */
+.baw-tabs {
+  display: flex;
+  background: #0f1117;
+  border-bottom: 1px solid #1e2436;
+  padding: 0 14px;
+  gap: 0;
+}
+.baw-tab {
+  padding: 10px 14px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #4f5968;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.baw-tab:hover { color: #8b95a8; }
+.baw-tab.baw-tab-active {
+  color: var(--baw-accent);
+  border-bottom-color: var(--baw-accent);
+}
+
+/* ── Body ──────────────────────────────────────────────────────── */
+.baw-body {
+  padding: 16px 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── Row layout ────────────────────────────────────────────────── */
+.baw-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+/* ── Field ─────────────────────────────────────────────────────── */
+.baw-field { display: flex; flex-direction: column; gap: 5px; flex: 1; }
+.baw-field-sm { flex: 1.2; }
+
+.baw-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #4f5968;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+/* ── Segmented control ─────────────────────────────────────────── */
+.baw-seg {
+  display: flex;
+  background: #0f1117;
+  border: 1px solid #252c3b;
+  border-radius: 7px;
+  padding: 3px;
+  gap: 2px;
+}
+.baw-seg-btn {
+  flex: 1;
+  padding: 6px 8px;
+  background: none;
+  border: none;
+  color: #4f5968;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.14s;
+  white-space: nowrap;
+}
+.baw-seg-btn:hover { color: #8b95a8; background: #1e2436; }
+.baw-seg-btn.baw-seg-active {
+  background: #1e2436;
+  color: var(--baw-accent);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+/* ── Input wrapper ─────────────────────────────────────────────── */
+.baw-input-wrap {
+  display: flex;
+  align-items: stretch;
+  background: #0f1117;
+  border: 1px solid #252c3b;
+  border-radius: 7px;
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+.baw-input-wrap:focus-within { border-color: var(--baw-accent); box-shadow: 0 0 0 3px var(--baw-accent-dim); }
+
+.baw-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: #e8eaf0;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 9px 12px;
+  width: 0; /* flex shrink trick */
+  min-width: 0;
+}
+.baw-input::placeholder { color: #4f5968; font-weight: 400; }
+.baw-input:disabled { color: #4f5968; cursor: not-allowed; font-style: italic; }
+.baw-input.baw-input-center { text-align: center; }
+
+/* remove browser number spinners */
+.baw-input[type=number]::-webkit-inner-spin-button,
+.baw-input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
+.baw-input[type=number] { -moz-appearance: textfield; }
+
+/* ── Stepper buttons ───────────────────────────────────────────── */
+.baw-stepper {
+  width: 34px;
+  background: #1a1e2a;
+  border: none;
+  color: #8b95a8;
+  font-size: 16px;
+  font-weight: 300;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.13s;
+}
+.baw-stepper:first-child { border-right: 1px solid #252c3b; }
+.baw-stepper:last-child  { border-left: 1px solid #252c3b; }
+.baw-stepper:hover { background: #252c3b; color: var(--baw-accent); }
+.baw-stepper:active { background: #2e3546; }
+
+/* ── More options toggle ───────────────────────────────────────── */
+.baw-more-toggle {
+  background: none;
+  border: none;
+  color: #4f5968;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  align-self: flex-start;
+  transition: color 0.15s;
+}
+.baw-more-toggle:hover { color: #8b95a8; }
+
+/* ── More row ──────────────────────────────────────────────────── */
+.baw-more { animation: baw-fade-in 0.18s ease; }
+@keyframes baw-fade-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+.baw-info-box { justify-content: center; }
+.baw-info-text {
+  font-size: 11px;
+  color: #4f5968;
+  line-height: 1.7;
+  background: #0f1117;
+  border: 1px solid #1e2436;
+  border-radius: 7px;
+  padding: 9px 12px;
+  margin: 0;
+}
+.baw-info-text strong { color: #8b95a8; }
+
+/* ── Order summary strip ───────────────────────────────────────── */
+.baw-summary {
+  display: flex;
+  align-items: center;
+  background: #0f1117;
+  border: 1px solid #1e2436;
+  border-radius: 8px;
+  padding: 10px 16px;
+  gap: 0;
+}
+.baw-summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  align-items: center;
+}
+.baw-summary-item span {
+  font-size: 10px;
+  color: #4f5968;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.baw-summary-item strong {
+  font-size: 13px;
+  font-weight: 700;
+  color: #e8eaf0;
+}
+.baw-summary-divider {
+  width: 1px;
+  height: 28px;
+  background: #1e2436;
+  flex-shrink: 0;
+}
+
+/* ── Feedback messages ─────────────────────────────────────────── */
+.baw-feedback {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 9px 14px;
+  border-radius: 7px;
+  border: 1px solid;
+  animation: baw-fade-in 0.18s ease;
+}
+.baw-feedback-error {
+  color: #ef5350;
+  background: rgba(239,83,80,0.08);
+  border-color: rgba(239,83,80,0.25);
+}
+.baw-feedback-success {
+  color: #26a69a;
+  background: rgba(38,166,154,0.08);
+  border-color: rgba(38,166,154,0.25);
+}
+
+/* ── Footer ────────────────────────────────────────────────────── */
+.baw-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px 16px;
+  background: #0f1117;
+  border-top: 1px solid #1e2436;
+  gap: 12px;
+}
+.baw-hint {
+  font-size: 11px;
+  color: #333d50;
+}
+.baw-footer-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.baw-btn-cancel {
+  padding: 9px 18px;
+  background: none;
+  border: 1px solid #252c3b;
+  border-radius: 7px;
+  color: #8b95a8;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.14s;
+}
+.baw-btn-cancel:hover { background: #1e2436; color: #e8eaf0; border-color: #3a4155; }
+
+.baw-btn-submit {
+  padding: 9px 22px;
+  border: none;
+  border-radius: 7px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.14s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 130px;
+  letter-spacing: 0.2px;
+}
+.baw-btn-submit:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.baw-btn-buy  { background: #26a69a; }
+.baw-btn-buy:hover:not(:disabled)  { background: #1d9088; box-shadow: 0 4px 16px rgba(38,166,154,0.35); }
+
+.baw-btn-sell { background: #ef5350; }
+.baw-btn-sell:hover:not(:disabled) { background: #d63b38; box-shadow: 0 4px 16px rgba(239,83,80,0.35); }
+
+/* ── Loading spinner ───────────────────────────────────────────── */
+.baw-spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,0.25);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: baw-spin 0.65s linear infinite;
+  display: inline-block;
+}
+@keyframes baw-spin { to { transform: rotate(360deg); } }
+
+/* ── Responsive: full-width on small screens ───────────────────── */
+@media (max-width: 520px) {
+  .baw-panel { width: 100%; border-radius: 14px 14px 0 0; }
+}

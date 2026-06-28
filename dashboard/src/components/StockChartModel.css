@@ -1,0 +1,191 @@
+/* ═══════════════════════════════════════════════════════
+   StockChartModal — dark financial chart popup
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Overlay ──────────────────────────────────────────── */
+.scm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: scm-fade-in 0.18s ease;
+}
+@keyframes scm-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* ── Panel ────────────────────────────────────────────── */
+.scm-panel {
+  width: 100%;
+  max-width: 680px;
+  background: #14171f;
+  border: 1px solid #252c3b;
+  border-radius: 16px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: scm-slide-up 0.22s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+@keyframes scm-slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* ── Header ───────────────────────────────────────────── */
+.scm-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid #1e2436;
+}
+.scm-header-left { display: flex; align-items: flex-start; gap: 14px; }
+
+.scm-ticker-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.scm-ticker {
+  font-size: 18px;
+  font-weight: 800;
+  color: #e8eaf0;
+  letter-spacing: 0.3px;
+}
+.scm-exchange {
+  font-size: 10px; font-weight: 600;
+  color: #4f5968;
+  background: #1e2436;
+  border: 1px solid #252c3b;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.scm-price-row { display: flex; align-items: baseline; gap: 10px; }
+.scm-price {
+  font-size: 26px;
+  font-weight: 700;
+  color: #e8eaf0;
+  letter-spacing: -0.5px;
+}
+.scm-change {
+  font-size: 13px;
+  font-weight: 600;
+}
+.scm-change.up   { color: #26a69a; }
+.scm-change.down { color: #ef5350; }
+
+.scm-close {
+  width: 30px; height: 30px;
+  background: none;
+  border: 1px solid #252c3b;
+  border-radius: 8px;
+  color: #4f5968;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.scm-close:hover { background: #252c3b; color: #e8eaf0; }
+
+/* ── Stats strip ──────────────────────────────────────── */
+.scm-stats {
+  display: flex;
+  gap: 0;
+  padding: 12px 20px;
+  background: #0f1117;
+  border-bottom: 1px solid #1e2436;
+  overflow-x: auto;
+}
+.scm-stats::-webkit-scrollbar { height: 0; }
+
+.scm-stat {
+  display: flex; flex-direction: column; gap: 3px;
+  flex: 1; min-width: 80px;
+  padding: 0 12px;
+  border-right: 1px solid #1e2436;
+}
+.scm-stat:first-child { padding-left: 0; }
+.scm-stat:last-child  { border-right: none; }
+
+.scm-stat-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #4f5968;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.scm-stat-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e8eaf0;
+}
+
+/* ── Range buttons ────────────────────────────────────── */
+.scm-ranges {
+  display: flex;
+  gap: 4px;
+  padding: 12px 20px 0;
+  background: #14171f;
+}
+.scm-range-btn {
+  padding: 5px 14px;
+  background: none;
+  border: 1px solid #1e2436;
+  border-radius: 6px;
+  color: #4f5968;
+  font-size: 11px; font-weight: 700;
+  cursor: pointer;
+  transition: all 0.14s;
+  letter-spacing: 0.3px;
+}
+.scm-range-btn:hover { border-color: #2a3040; color: #8b95a8; }
+.scm-range-btn.active {
+  background: #1e2436;
+  border-color: #2a3040;
+  color: #e8eaf0;
+}
+
+/* ── Chart area ───────────────────────────────────────── */
+.scm-chart {
+  height: 260px;
+  padding: 16px 16px 8px;
+  background: #14171f;
+}
+
+/* ── Footer ───────────────────────────────────────────── */
+.scm-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px 16px;
+  background: #0f1117;
+  border-top: 1px solid #1e2436;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.scm-footer-note {
+  font-size: 11px;
+  color: #333d50;
+}
+.scm-footer-btns { display: flex; gap: 8px; }
+.scm-btn-outline {
+  padding: 6px 14px;
+  background: none;
+  border: 1px solid #252c3b;
+  border-radius: 6px;
+  color: #8b95a8;
+  font-size: 11px; font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.14s;
+}
+.scm-btn-outline:hover { border-color: #387ed1; color: #387ed1; background: rgba(56,126,209,0.06); }
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 700px) {
+  .scm-panel    { border-radius: 12px; }
+  .scm-price    { font-size: 22px; }
+  .scm-chart    { height: 200px; }
+}
