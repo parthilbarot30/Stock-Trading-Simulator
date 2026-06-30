@@ -15,7 +15,7 @@ function Login() {
 
     setLoading(true);
     try {
-      const res  = await fetch("http://localhost:3002/login", {
+      const res  = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -23,7 +23,7 @@ function Login() {
       });
       const data = await res.json();
       if (data?.success) {
-        window.location.href = "http://localhost:3001";
+        window.location.href = process.env.REACT_APP_DASHBOARD_URL;
       } else {
         setError(data?.message || "Login failed. Please try again.");
       }

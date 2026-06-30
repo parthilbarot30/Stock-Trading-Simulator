@@ -9,7 +9,7 @@ const Holdings = () => {
 
   const fetchHoldings = () => {
     setLoading(true);
-    fetch("http://localhost:3002/allHoldings", { credentials: "include" })
+    fetch(`${process.env.REACT_APP_API_URL}/allHoldings`, { credentials: "include" })
       .then(r => { if (!r.ok) throw new Error("Failed"); return r.json(); })
       .then(data => { setAllHoldings(Array.isArray(data) ? data : []); setLoading(false); })
       .catch(() => { setError("Could not load holdings"); setLoading(false); });

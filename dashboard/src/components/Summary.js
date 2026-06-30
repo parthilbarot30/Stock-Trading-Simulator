@@ -8,8 +8,8 @@ const Summary = () => {
 
   useEffect(() => {
     Promise.all([
-      fetch("http://localhost:3002/funds", { credentials: "include" }).then(r => r.json()),
-      fetch("http://localhost:3002/allHoldings", { credentials: "include" }).then(r => r.json()),
+      fetch(`${process.env.REACT_APP_API_URL}/funds`, { credentials: "include" }).then(r => r.json()),
+      fetch(`${process.env.REACT_APP_API_URL}/allHoldings`, { credentials: "include" }).then(r => r.json()),
     ]).then(([fundsData, holdingsData]) => {
       setFunds(fundsData);
       setHoldings(Array.isArray(holdingsData) ? holdingsData : []);

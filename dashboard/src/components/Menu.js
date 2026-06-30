@@ -8,7 +8,7 @@ const Menu = () => {
   const [initials, setInitials] = useState("ZU");
 
   useEffect(() => {
-    fetch("http://localhost:3002/profile", { credentials: "include" })
+    fetch(`${process.env.REACT_APP_API_URL}/profile`, { credentials: "include" })
       .then(r => r.json())
       .then(data => {
         if (data.username) {

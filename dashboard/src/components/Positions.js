@@ -6,7 +6,7 @@ const Positions = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3002/allPositions", { credentials: "include" })
+    fetch(`${process.env.REACT_APP_API_URL}/allPositions`, { credentials: "include" })
       .then(r => r.json())
       .then(data => { setPositions(Array.isArray(data) ? data : []); setLoading(false); })
       .catch(() => setLoading(false));

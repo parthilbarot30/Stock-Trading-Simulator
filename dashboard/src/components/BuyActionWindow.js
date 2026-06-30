@@ -102,7 +102,7 @@ const BuyActionWindow = ({ uid, marketPrice = 0, mode = "BUY" }) => {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:3002/newOrder",
+        `${process.env.REACT_APP_API_URL}/newOrder`,
         {
           name:  uid,
           qty:   parseInt(qty),

@@ -11,7 +11,7 @@ const Funds = () => {
   const [processing, setProcessing] = useState(false);
 
   const fetchFunds = () => {
-    fetch("http://localhost:3002/funds", { credentials: "include" })
+    fetch(`${process.env.REACT_APP_API_URL}/funds`, { credentials: "include" })
       .then(r => r.json())
       .then(data => { setFunds(data); setLoading(false); })
       .catch(() => setLoading(false));
@@ -23,7 +23,7 @@ const Funds = () => {
     if (!amount || parseFloat(amount) <= 0) { setMsg("Enter a valid amount"); return; }
     setProcessing(true); setMsg("");
     try {
-      const res = await fetch("http://localhost:3002/addFunds", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/addFunds`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

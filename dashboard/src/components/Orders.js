@@ -7,7 +7,7 @@ const Orders = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3002/allOrders", { credentials: "include" })
+    fetch(`${process.env.REACT_APP_API_URL}/allOrders`, { credentials: "include" })
       .then(r => r.json())
       .then(data => { setOrders(Array.isArray(data) ? data : []); setLoading(false); })
       .catch(() => setLoading(false));

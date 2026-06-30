@@ -38,7 +38,7 @@ function Signup() {
 
     setLoading(true);
     try {
-      const res  = await fetch("http://localhost:3002/signup", {
+      const res  = await fetch(`${process.env.REACT_APP_API_URL}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
