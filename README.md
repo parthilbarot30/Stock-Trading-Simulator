@@ -2,6 +2,20 @@
 
 A full-stack stock trading simulator inspired by Zerodha Kite. Built with the MERN stack, it lets users sign up, manage a virtual portfolio, place buy/sell orders, track real-time P&L, and simulate SIP investments — all in a dark-mode financial dashboard UI.
 
+---
+ 
+## 🔗 Live Demo
+ 
+| App | URL |
+|---|---|
+| 🌐 Landing site | [stock-trading-simulator-pi.vercel.app](https://stock-trading-simulator-pi.vercel.app) |
+| 📊 Trading dashboard | [your-dashboard-url.vercel.app](https://your-dashboard-url.vercel.app) |
+| ⚙️ Backend API | [kite-backend-rkce.onrender.com](https://kite-backend-rkce.onrender.com) |
+ 
+> **Note:** The backend is hosted on Render's free tier, which spins down after 15 minutes of inactivity. The first request after idle time may take 30–50 seconds to respond while the server wakes up — this is expected, not a bug.
+ 
+---
+
 ## 🏗 Architecture
 
 The project is split into **three independent apps**, each running on its own port:
