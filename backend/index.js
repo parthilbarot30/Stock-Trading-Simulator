@@ -16,7 +16,13 @@ const app = express();
 const PORT = process.env.PORT || 3002;
 
 // ─── Middleware ────────────────────────────────────────────────────────────────
-app.use(cors({ origin: ["http://localhost:3000", "http://localhost:3001"], credentials: true }));
+app.use(cors({
+  origin: [
+    "https://stock-trading-simulator-pi.vercel.app",
+    "https://stock-trading-simulator-2dxg.vercel.app/"
+  ],
+  credentials: true
+}));
 app.use(express.json());
 app.use(cookieParser());
 
