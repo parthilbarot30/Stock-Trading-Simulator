@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 3002;
 app.use(cors({
   origin: [
     "https://stock-trading-simulator-pi.vercel.app",
-    "https://stock-trading-simulator-2dxg.vercel.app/"
+    "https://stock-trading-simulator-2dxg.vercel.app"
   ],
   credentials: true
 }));
