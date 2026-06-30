@@ -9,7 +9,7 @@ A full-stack stock trading simulator inspired by Zerodha Kite. Built with the ME
 | App | URL |
 |---|---|
 | 🌐 Landing site | [stock-trading-simulator-pi.vercel.app](https://stock-trading-simulator-pi.vercel.app) |
-| 📊 Trading dashboard | [your-dashboard-url.vercel.app](https://your-dashboard-url.vercel.app) |
+| 📊 Trading dashboard | [your-dashboard-url.vercel.app](https://stock-trading-simulator-2dxg.vercel.app) |
 | ⚙️ Backend API | [kite-backend-rkce.onrender.com](https://kite-backend-rkce.onrender.com) |
  
 > **Note:** The backend is hosted on Render's free tier, which spins down after 15 minutes of inactivity. The first request after idle time may take 30–50 seconds to respond while the server wakes up — this is expected, not a bug.
